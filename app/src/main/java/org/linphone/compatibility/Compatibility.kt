@@ -52,8 +52,8 @@ class Compatibility {
             id: Int,
             notification: Notification,
             foregroundServiceType: Int
-        ) {
-            if (Version.sdkAboveOrEqual(Version.API34_ANDROID_14_UPSIDE_DOWN_CAKE)) {
+        ): Boolean {
+            return if (Version.sdkAboveOrEqual(Version.API34_ANDROID_14_UPSIDE_DOWN_CAKE)) {
                 Api34Compatibility.startServiceForeground(
                     service,
                     id,
@@ -90,7 +90,9 @@ class Compatibility {
         }
 
         fun getAllRequiredPermissionsArray(): Array<String> {
-            if (Version.sdkAboveOrEqual(Version.API33_ANDROID_13_TIRAMISU)) {
+            if (Version.sdkAboveOrEqual(Version.API37_ANDROID_17_CINNAMON_BUN)) {
+                return Api37Compatibility.getAllRequiredPermissionsArray()
+            } else if (Version.sdkAboveOrEqual(Version.API33_ANDROID_13_TIRAMISU)) {
                 return Api33Compatibility.getAllRequiredPermissionsArray()
             }
             return arrayOf(
@@ -98,6 +100,15 @@ class Compatibility {
                 Manifest.permission.RECORD_AUDIO,
                 Manifest.permission.CAMERA
             )
+        }
+
+        fun hasTelecomManagerFeature(context: Context): Boolean {
+            if (Version.sdkAboveOrEqual(Version.API33_ANDROID_13_TIRAMISU)) {
+                return Api33Compatibility.hasTelecomManagerFeature(context)
+            } else if (Version.sdkAboveOrEqual(Version.API26_O_80)) {
+                return Api28Compatibility.hasTelecomManagerFeature(context)
+            }
+            return false
         }
 
         fun hasFullScreenIntentPermission(context: Context): Boolean {
@@ -118,6 +129,13 @@ class Compatibility {
         fun isPostNotificationsPermissionGranted(context: Context): Boolean {
             if (Version.sdkAboveOrEqual(Version.API33_ANDROID_13_TIRAMISU)) {
                 return Api33Compatibility.isPostNotificationsPermissionGranted(context)
+            }
+            return true
+        }
+
+        fun isAccessLocalNetworkPermissionGranted(context: Context): Boolean {
+            if (Version.sdkAboveOrEqual(Version.API37_ANDROID_17_CINNAMON_BUN)) {
+                return Api37Compatibility.isAccessLocalNetworkPermissionGranted(context)
             }
             return true
         }

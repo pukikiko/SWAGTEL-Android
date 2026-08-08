@@ -24,6 +24,7 @@ import androidx.annotation.WorkerThread
 import androidx.core.telecom.CallAttributesCompat
 import androidx.core.telecom.CallException
 import androidx.core.telecom.CallsManager
+import android.os.Build
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -35,12 +36,16 @@ import org.linphone.core.CoreListenerStub
 import org.linphone.core.tools.Log
 import org.linphone.utils.LinphoneUtils
 import androidx.core.net.toUri
+import org.linphone.compatibility.Compatibility
 
 class TelecomManager
     @WorkerThread
     constructor(context: Context) {
     companion object {
         private const val TAG = "[Telecom Manager]"
+
+        private val SAMSUNG_S23s =
+            arrayListOf("dm3q", "dm1q", "dm2q", "r11s", "r11q", "SC-52D", "SCG19", "SC-51D", "SCG24", "SCG20")
     }
 
     private val callsManager = CallsManager(context)
@@ -68,19 +73,21 @@ class TelecomManager
         }
     }
 
-    private val hasTelecomFeature = context.packageManager.hasSystemFeature("android.software.telecom")
+    private val hasTelecomFeature = Compatibility.hasTelecomManagerFeature(context)
 
     private var currentlyFollowedCalls: Int = 0
 
     init {
         Log.i(
-            "$TAG android.software.telecom feature is [${if (hasTelecomFeature) "available" else "not available"}]"
+            "$TAG Feature is [${if (hasTelecomFeature) "available" else "not available"}]"
         )
-        try {
-            callsManager.registerAppWithTelecom(CallsManager.CAPABILITY_SUPPORTS_VIDEO_CALLING)
-            Log.i("$TAG App has been registered with Telecom")
-        } catch (e: Exception) {
-            Log.e("$TAG Can't init TelecomManager: $e")
+        if (hasTelecomFeature) {
+            try {
+                callsManager.registerAppWithTelecom(CallsManager.CAPABILITY_SUPPORTS_VIDEO_CALLING)
+                Log.i("$TAG App has been registered with Telecom")
+            } catch (e: Exception) {
+                Log.e("$TAG Can't init TelecomManager: $e")
+            }
         }
     }
 
@@ -111,6 +118,9 @@ class TelecomManager
         // https://developer.android.com/reference/kotlin/androidx/core/telecom/CallAttributesCompat#CALL_TYPE_VIDEO_CALL()
         val type = if (!call.core.isVideoEnabled) {
             CallAttributesCompat.CALL_TYPE_AUDIO_CALL
+        } else if (Build.DEVICE in SAMSUNG_S23s) {
+            Log.w("$TAG Samsung S23, S23 FE, S23+ or S23 Ultra detected [${Build.MODEL}], applying workaround to prevent no audio on earpiece issue")
+            CallAttributesCompat.CALL_TYPE_AUDIO_CALL
         } else {
             CallAttributesCompat.CALL_TYPE_VIDEO_CALL
         }
@@ -122,7 +132,8 @@ class TelecomManager
                     uri,
                     direction,
                     type,
-                    capabilities
+                    capabilities,
+                    isLogExcluded = true
                 )
                 Log.i("$TAG Adding call to Telecom's CallsManager with attributes [$callAttributes]")
 

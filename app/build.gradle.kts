@@ -37,7 +37,7 @@ if (crashlyticsAvailable) {
     println("Crashlytics has been disabled because either google-services.json file wasn't found or local Linphone SDK build folder isn't configured")
 }
 
-var gitVersion = "6.1.0-alpha"
+var gitVersion = "6.3.0-alpha"
 var gitBranch = ""
 try {
     val gitDescribe = ProcessBuilder()
@@ -100,14 +100,14 @@ project.tasks.preBuild.dependsOn("linphoneSdkSource")
 
 android {
     namespace = "org.linphone"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = packageName
         minSdk = 28
-        targetSdk = 36
-        versionCode = 601002 // 6.01.002
-        versionName = "6.1.0-alpha"
+        targetSdk = 37
+        versionCode = 602005 // 6.02.005
+        versionName = "6.3.0-alpha"
 
         manifestPlaceholders["appAuthRedirectScheme"] = packageName
 
@@ -218,6 +218,10 @@ android {
     lint {
         abortOnError = false
     }
+
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -267,6 +271,9 @@ dependencies {
     implementation(libs.openid.appauth)
 
     implementation(libs.linphone)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.mockk)
 }
 
 configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {

@@ -12,10 +12,7 @@
 
     <declare-styleable name="LinphoneAppTheme">
         <attr name="color_main1_100" format="color"/>
-        <attr name="color_main1_100_alpha_50" format="color"/>
-        <attr name="color_main1_300" format="color"/>
         <attr name="color_main1_500" format="color"/>
-        <attr name="color_main1_700" format="color"/>
 
         <attr name="color_main2_000" format="color"/>
         <attr name="color_main2_100" format="color"/>
@@ -37,18 +34,27 @@
         <attr name="color_grey_800" format="color"/>
         <attr name="color_grey_900" format="color"/>
 
+        <attr name="color_danger_100" format="color"/>
         <attr name="color_danger_500" format="color"/>
+        <attr name="color_danger_600" format="color"/>
         <attr name="color_danger_700" format="color"/>
         <attr name="color_danger_900" format="color"/>
 
+        <attr name="color_success_100" format="color"/>
         <attr name="color_success_200" format="color"/>
         <attr name="color_success_500" format="color"/>
         <attr name="color_success_700" format="color"/>
+        <attr name="color_success_900" format="color"/>
 
         <attr name="color_info_500" format="color"/>
 
+        <attr name="color_warning_100" format="color"/>
         <attr name="color_warning_600" format="color"/>
+        <attr name="color_warning_900" format="color"/>
         <attr name="color_plain_text_security_warning_600" format="color"/>
+
+        <attr name="color_offline_100" format="color"></attr>
+        <attr name="color_offline_900" format="color"></attr>
 
         <attr name="color_on_main" format="color"/>
         <attr name="color_background_contrast_in_dark_mode" format="color"/>
@@ -80,5 +86,6 @@
 
         <attr name="color_bottom_sheet_handle" format="color"/>
         <attr name="color_bottom_sheet_background" format="color"/>
+        <attr name="color_bottom_sheet_disabled_menu" format="color" />
     </declare-styleable>
 </resources>

@@ -234,6 +234,15 @@ class ActiveCallFragment : GenericCallFragment() {
             callMediaEncryptionStatsBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         }
 
+        callViewModel.isPausedByRemote.observe(viewLifecycleOwner) { paused ->
+            if (paused) {
+                if (callViewModel.fullScreenMode.value == true) {
+                    Log.i("$TAG Call is paused by remote, leaving full screen mode")
+                    callViewModel.fullScreenMode.postValue(false)
+                }
+            }
+        }
+
         callViewModel.showZrtpSasDialogEvent.observe(viewLifecycleOwner) {
             it.consume { pair ->
                 callMediaEncryptionStatsBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
@@ -304,6 +313,12 @@ class ActiveCallFragment : GenericCallFragment() {
             }
         }
 
+        callViewModel.clearPressedDtmfBarEvent.observe(viewLifecycleOwner) {
+            it.consume {
+                binding.callNumpad.digitsHistory.setText("")
+            }
+        }
+
         callViewModel.appendDigitToSearchBarEvent.observe(viewLifecycleOwner) {
             it.consume { digit ->
                 binding.callNumpad.digitsHistory.addCharacterAtPosition(digit)
@@ -327,17 +342,6 @@ class ActiveCallFragment : GenericCallFragment() {
                 } else {
                     Log.i("$TAG Removing [$displayName] is recording toast")
                     (requireActivity() as CallActivity).removePersistentRedToast(toastTag)
-                }
-            }
-        }
-
-        callViewModel.goToConferenceEvent.observe(viewLifecycleOwner) {
-            it.consume {
-                if (findNavController().currentDestination?.id == R.id.activeCallFragment) {
-                    Log.i("$TAG Going to conference fragment")
-                    val action =
-                        ActiveCallFragmentDirections.actionActiveCallFragmentToActiveConferenceCallFragment()
-                    findNavController().navigate(action)
                 }
             }
         }

@@ -29,6 +29,7 @@ import org.linphone.core.Address
 import org.linphone.core.AudioDevice
 import org.linphone.core.ConferenceParams
 import org.linphone.core.tools.Log
+import org.linphone.telecom.RedirectionHandler
 import org.linphone.utils.AudioUtils
 
 class NotificationBroadcastReceiver : BroadcastReceiver() {
@@ -57,6 +58,11 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
             action == NotificationsManager.INTENT_MARK_MESSAGE_AS_READ_NOTIF_ACTION
         ) {
             handleChatIntent(context, intent, notificationId, action)
+        } else if (
+            action == NotificationsManager.INTENT_ALLOW_CALL_REDIRECTION_ACTION ||
+            action == NotificationsManager.INTENT_DENY_CALL_REDIRECTION_ACTION
+        ) {
+            handleCallRedirectionIntent(action)
         }
     }
 
@@ -95,6 +101,22 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private fun handleCallRedirectionIntent(action: String) {
+        when (action) {
+            NotificationsManager.INTENT_ALLOW_CALL_REDIRECTION_ACTION -> {
+                Log.i("$TAG User allowed GSM call redirection through Linphone, doing it")
+                RedirectionHandler.useLinphone = true
+                RedirectionHandler.responseLatch?.countDown()
+            }
+
+            NotificationsManager.INTENT_DENY_CALL_REDIRECTION_ACTION -> {
+                Log.i("$TAG User declined GSM call redirection through Linphone")
+                RedirectionHandler.useLinphone = false
+                RedirectionHandler.responseLatch?.countDown()
             }
         }
     }
