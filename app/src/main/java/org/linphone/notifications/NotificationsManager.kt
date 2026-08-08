@@ -1975,6 +1975,13 @@ class NotificationsManager
             description = name
             lockscreenVisibility = Notification.VISIBILITY_PUBLIC
             setShowBadge(false)
+            setSound(
+                Uri.parse("android.resource://${context.packageName}/${R.raw.swagtel2_android}"),
+                AudioAttributes.Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE)
+                    .build()
+            )
         }
         notificationManager.createNotificationChannel(channel)
     }
