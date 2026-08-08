@@ -65,11 +65,11 @@ import org.linphone.databinding.MainActivityBinding
 import org.linphone.ui.GenericActivity
 import org.linphone.ui.assistant.AssistantActivity
 import org.linphone.ui.main.chat.fragment.ConversationsListFragmentDirections
-import org.linphone.utils.PasswordDialogModel
-import org.linphone.ui.main.sso.fragment.SingleSignOnFragmentDirections
 import org.linphone.ui.main.viewmodel.MainViewModel
 import org.linphone.ui.main.viewmodel.SharedMainViewModel
+import org.linphone.ui.sso.SingleSignOnActivity
 import org.linphone.utils.AppUtils
+import org.linphone.utils.PasswordDialogModel
 import org.linphone.utils.DialogUtils
 import org.linphone.utils.Event
 import org.linphone.utils.FileUtils
@@ -294,13 +294,12 @@ class MainActivity : GenericActivity() {
                 val username = pair.second
 
                 Log.i(
-                    "$TAG Navigating to Single Sign On Fragment with server URL [$serverUrl] and username [$username]"
+                    "$TAG Navigating to Single Sign On Activity with server URL [$serverUrl] and username [$username]"
                 )
-                val action = SingleSignOnFragmentDirections.actionGlobalSingleSignOnFragment(
-                    serverUrl,
-                    username
-                )
-                findNavController().navigate(action)
+                val intent = Intent(this, SingleSignOnActivity::class.java)
+                intent.putExtra(SingleSignOnActivity.INTENT_EXTRA_USERNAME, username)
+                intent.putExtra(SingleSignOnActivity.INTENT_EXTRA_SERVER_URL, serverUrl)
+                startActivity(intent)
             }
         }
 
