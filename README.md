@@ -1,18 +1,21 @@
 
-[![pipeline status](https://gitlab.linphone.org/BC/public/linphone-android/badges/master/pipeline.svg)](https://gitlab.linphone.org/BC/public/linphone-android/commits/master) 
-[![weblate status](https://weblate.linphone.org/widget/linphone/linphone-android-6-0/status-badge.png)](https://weblate.linphone.org/engage/linphone/)
+# SWAGTEL
 
-Linphone is an open source softphone for voice and video over IP calling and instant messaging.
+**SWAGTEL** is a fork of [linphone-android](https://github.com/BelledonneCommunications/linphone-android) customized for the **SWAGTEL** telecommunications service (infrastructure hosted on `flexisip.mfc.pw` / the `mfc.pw` domain).
 
-It is fully SIP-based, for all calling, presence and IM features.
+It is built from the open-source [Linphone](https://linphone.org) softphone, which is fully SIP-based for calling, presence and instant messaging.
 
-General description is available from [linphone web site](https://linphone.org).
+To use the app you need an account on the SWAGTEL SIP service. The app is pre-configured (via the bundled assistant defaults) to register against the SWAGTEL servers, so you typically only have to enter your SWAGTEL username and password.
 
 ### How to get it
 
-[<img src="metadata/google-play-badge.png" height="60" alt="Get it on Google Play">](https://play.google.com/store/apps/details?id=org.linphone)[<img src="metadata/f-droid-badge.png" height="60" alt="Get it on F-Droid">](https://f-droid.org/en/packages/org.linphone/)
+Build the APK yourself using the [Building the app](#building-the-app) instructions below, or grab a prebuilt APK from the [Releases](https://github.com/pukikiko/SWAGTEL-Android/releases) page of this repository.
 
-You can also download APKs signed with our key from [our website](https://download.linphone.org/releases/android/?C=M;O=D).
+### What has changed compared to upstream Linphone
+
+- **Rebranded** as SWAGTEL with new app name, launcher icon and theme.
+- **New package name** `pw.mfc.swagtel` (see `packageName` in `app/build.gradle.kts`).
+- **Pre-configured for the SWAGTEL service**: default SIP realm/domain and proxy (`flexisip.mfc.pw`), SRTP media encryption and ICE, configured through `app/src/main/assets/assistant_linphone_default_values`.
 
 ### License
 
@@ -31,14 +34,6 @@ Linphone is dual licensed, and is available either :
 - Linphone public wiki : https://wiki.linphone.org/xwiki/wiki/public/view/Linphone/
 
 - Tutorials : https://gitlab.linphone.org/BC/public/tutorials/-/tree/master/android/kotlin
-
-# What's new
-
-6.0.0 release is a completely new version, designed with UX/UI experts and marks a turning point in design, features, and user experience. The improvements make this version smoother and simpler for both developers and users.
-
-You can take a look at the [CHANGELOG.md](CHANGELOG.md) file for a non-exhaustive list of changes of this new version and of the newly added features, the most exciting ones being the improved fluidity, a real multi-accounts support and asymmetrical video in calls.
-
-This release only works on Android OS 9.0 and newer.
 
 # Building the app
 
@@ -136,47 +131,3 @@ adb logcat -d | ndk-stack -sym ./libs-debug/`adb shell getprop ro.product.cpu.ab
 Warning: This command won't print anything until you reproduce the crash!
 
 Starting [NDK r29](https://github.com/android/ndk/wiki/Changelog-r29) you will be able to directly use the ```libs-debug.zip``` file in ```ndk-stack -sym``` argument.
-
-## Create an APK with a different package name
-
-Simply edit the ```app/build.gradle.kts``` file and change the value of the ```packageName``` variable.
-The next build will automatically use this value everywhere thanks to ```manifestPlaceholders``` feature of gradle and Android.
-
-We no longer build the debug flavor with a different package name, but if you still want that behavior you only have to change the value of ```useDifferentPackageNameForDebugBuild``` to ```true```. When enabled, app built and installed by Android studio will have ```org.linphone.debug``` package name instead of ```org.linphone```.
-
-If you encounter
-```
-Execution failed for task ':app:processDebugGoogleServices'.
-> No matching client found for package name 'your package name'
-```
-error when building, make sure you have replaced the ```app/google-services.json``` file by yours (containing your package name).
-If you don't have such file because you don't rely on Firebase Cloud Messaging features nor Crashlytics, delete the file instead.
-
-## Firebase push notifications
-
-Now that Google Cloud Messaging has been deprecated and will be completely removed on April 11th 2019, the only official way of using push notifications is through Firebase.
-
-However to make Firebase push notifications work, the project needs to have a ```app/google-services.json``` file that contains the configuration.  
-We have archived our own, so you can build your linphone-android application and still receive push notifications from our free SIP service (sip.linphone.org).
-If you delete it, you won't receive any push notification.
-
-If you have your own push server, replace this file by yours.
-
-## Translations
-
-We no longer use transifex for the translation process, instead we have deployed our own instance of [Weblate](https://weblate.linphone.org/).
-
-Due to the full app rewrite we can't re-use previous translations, so we'll be very happy if you want to contribute.
-
-<a href="https://weblate.linphone.org/engage/linphone/">
-<img src="https://weblate.linphone.org/widget/linphone/linphone-android-6-0/multi-auto.svg" alt="Translation status" />
-</a>
-
-# CONTRIBUTIONS
-
-In order to submit a patch for inclusion in linphone's source code:
-
-1. First make sure your patch applies to latest git sources before submitting: patches made to old versions can't and won't be merged.
-2. Fill out and send us an email with the link of pull-request and the [Contributor Agreement](https://linphone.org/sites/default/files/bc-contributor-agreement_0.pdf) for your patch to be included in the git tree.
-
-The goal of this agreement to grant us peaceful exercise of our rights on the linphone source code, while not losing your rights on your contribution.

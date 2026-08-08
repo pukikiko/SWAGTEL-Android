@@ -69,25 +69,6 @@
                     app:layout_constraintEnd_toEndOf="parent"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/default_text_style"
-                    android:id="@+id/help"
-                    android:onClick="@{helpClickListener}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:padding="10dp"
-                    android:text="@string/help_title"
-                    android:textSize="14sp"
-                    android:textColor="?attr/color_main2_500"
-                    android:drawableStart="@drawable/question"
-                    android:drawablePadding="5dp"
-                    android:background="@drawable/squircle_transparent_button_background"
-                    app:drawableTint="?attr/color_main2_500"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/title"
-                    app:layout_constraintBottom_toBottomOf="@id/title"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/header_style"
                     android:id="@+id/sip_identity_label"
                     android:layout_width="wrap_content"
@@ -185,38 +166,19 @@
                     app:layout_constraintEnd_toEndOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/default_text_style_600"
-                    android:id="@+id/forgotten_password"
-                    android:onClick="@{forgottenPasswordClickListener}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:paddingTop="13dp"
-                    android:paddingBottom="13dp"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
-                    android:text="@string/assistant_forgotten_password"
-                    android:textSize="13sp"
-                    android:textColor="?attr/color_main2_500"
-                    android:background="@drawable/squircle_transparent_button_background"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/login"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/default_text_style"
                     android:id="@+id/or"
+                    style="@style/default_text_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="28dp"
+                    android:layout_marginTop="22dp"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
                     android:text="@string/or"
-                    android:textSize="14sp"
                     android:textColor="?attr/color_main2_500"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@id/login"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/forgotten_password"/>
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <View
                     android:layout_width="0dp"
@@ -259,71 +221,18 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/or" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/secondary_button_label_style"
-                    android:id="@+id/third_party_sip_account"
-                    android:onClick="@{thirdPartySipAccountLoginClickListener}"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
-                    android:text="@string/assistant_login_third_party_sip_account"
-                    android:visibility="@{viewModel.hideThirdPartyAccount ? View.GONE : View.VISIBLE}"
-                    app:layout_constraintWidth_max="@dimen/button_max_width"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/scan_qr_code" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/default_text_style"
-                    android:id="@+id/no_account_yet"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:text="@string/assistant_no_account_yet"
-                    android:textSize="14sp"
-                    android:textColor="?attr/color_main2_700"
-                    android:visibility="@{viewModel.hideCreateAccount ? View.GONE : View.VISIBLE}"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/register"
-                    app:layout_constraintTop_toTopOf="@id/register"
-                    app:layout_constraintBottom_toBottomOf="@id/register"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/primary_button_label_style"
-                    android:id="@+id/register"
-                    android:onClick="@{registerClickListener}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="@dimen/screen_bottom_margin"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
-                    android:text="@string/assistant_account_register"
-                    android:visibility="@{viewModel.hideCreateAccount ? View.GONE : View.VISIBLE}"
-                    app:layout_constraintVertical_bias="1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/no_account_yet"
-                    app:layout_constraintTop_toBottomOf="@id/third_party_sip_account"
-                    app:layout_constraintBottom_toTopOf="@id/mountains"/>
-
                 <ImageView
                     android:id="@+id/mountains"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/mountains"
                     android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
                     android:contentDescription="@null"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/mountains"
+                    android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:tint="?attr/color_main1_500" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

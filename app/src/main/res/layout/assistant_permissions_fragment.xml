@@ -246,13 +246,14 @@
                 android:id="@+id/mountains"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:src="@drawable/mountains"
                 android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
                 android:contentDescription="@null"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/mountains"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:tint="?attr/color_main1_500" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
