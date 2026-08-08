@@ -44,7 +44,6 @@ import androidx.annotation.WorkerThread
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import java.io.File
 import kotlin.system.exitProcess
 import org.linphone.BuildConfig
 import org.linphone.LinphoneApplication.Companion.coreContext
@@ -720,22 +719,6 @@ class CoreContext
         }
 
         computeUserAgent()
-
-        // Foreground incoming calls are rung by Core itself (the accept/deny call screen), so point
-        // its ring at the bundled custom ringtone. The notification channel covers the background
-        // case, and the two don't overlap since the channel doesn't alert while the app is visible.
-        try {
-            val ringtoneFile = File(context.filesDir, "swagtel2_android.ogg")
-            if (!ringtoneFile.exists()) {
-                context.resources.openRawResource(org.linphone.R.raw.swagtel2_android).use { input ->
-                    ringtoneFile.outputStream().use { output -> input.copyTo(output) }
-                }
-            }
-            core.ring = ringtoneFile.absolutePath
-        } catch (e: Exception) {
-            Log.e("$TAG Failed to set custom incoming call ringtone: $e")
-        }
-
         Log.i("$TAG Core has been configured with user-agent [${core.userAgent}], starting it")
         core.start()
     }
